@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css">
+
+    </head>
+    <body style="background-color:#ccccff">
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+        {% block sidebar %}
+        <br>
+            {# Trying to import an image #}
+            <img src="{{ asset('logo.jpg') }}" alt="si2001" />
+        {% endblock %}
+    </body>
+</html>
