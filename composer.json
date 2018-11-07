@@ -12,15 +12,19 @@
         "symfony/form": "*",
         "symfony/framework-bundle": "*",
         "symfony/orm-pack": "^1.0",
+        "symfony/security-bundle": "*",
         "symfony/security-csrf": "*",
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/web-server-bundle": "*",
+        "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "*"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
         "symfony/dotenv": "*",
-        "symfony/maker-bundle": "^1.8"
+        "symfony/maker-bundle": "^1.8",
+        "symfony/profiler-pack": "^1.0"
     },
     "config": {
         "preferred-install": {

@@ -3,38 +3,45 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1>All Employees</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th></th>
                 <th>Name</th>
                 <th>Surname</th>
-                <th>Job</th>
+                <th>Username</th>
+                <th>Birthday</th>
+                <th>Country</th>
+                <th>Marital Status</th>
+                <th>Skill</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
+                <td><img src="../{{ user.link }}" height="42" width="42"></img></td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.surname }}</td>
-                <td>{{ user.job }}</td>
-
+                <td>{{ user.username }}</td>
+                <td>{{ user.birthday ? user.birthday|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.country }}</td>
+                <td></td>
+                <td></td>
                 <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-primary">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-secondary">edit</a>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="9">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('user_new') }}" class="btn btn-dark">Create new</a>
+    <a href="{{ path('user_new') }}">Create new</a>
 {% endblock %}

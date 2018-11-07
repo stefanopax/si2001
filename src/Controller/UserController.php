@@ -54,14 +54,6 @@ class UserController extends AbstractController
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
-    /** Routing example for testing
-     * @Route("/prova/{slug}")
-     */
-    public function throw($slug)
-    {
-        return $this->render('user/throw.html.twig', ['input' => $slug]);
-    }
-
     /**
      * @Route("/{id}/edit", name="user_edit", methods="GET|POST")
      */
