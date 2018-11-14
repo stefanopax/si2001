@@ -22,6 +22,34 @@ class UserRepository extends ServiceEntityRepository
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
+    public function findSkillsById($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+                 SELECT * from skill
+                       JOIN has ON skill.id=has.skill
+                       WHERE has.user = :id
+         ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['id' => $id]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+     }
+
+
+    /* public function findSkillsById()
+    {    return $this->getEntityManager()
+            ->createQuery(
+                'SELECT * from skill
+                      JOIN has ON skill.id=has.skill
+                      WHERE has.user = :id'
+            )
+            ->setParameter('id', $id);
+    }
+    */
+
     /*
     public function findByExampleField($value)
     {

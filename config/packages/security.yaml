@@ -3,6 +3,9 @@ security:
     encoders:
         App\Entity\User:
             algorithm: bcrypt
+    role_hierarchy:
+        ROLE_USEE:   ROLE_USER
+        ROLE_ADMIN: [ ROLE_USER, ROLE_ADMIN]
     providers:
         my_provider:
             entity:
@@ -13,19 +16,22 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            anonymous: ~
+            access_denied_handler: App\Security\AccessDeniedHandler
 
             form_login:
+                default_target_path: /user
                 login_path: login
                 check_path: login
                 provider: my_provider
 
             logout:
                 path: /logout
-                target: /
+                target: /login?logout=success
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+    - { path: ^/user, roles: [ROLE_USER, ROLE_ADMIN] }
+    - { path: ^/skill, roles: [ROLE_ADMIN] }
+    - { path: ^/status, roles: [ROLE_ADMIN] }

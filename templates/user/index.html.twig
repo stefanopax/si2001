@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Employees | SI2001{% endblock %}
 
 {% block body %}
-    <h1>All Employees</h1>
-
-    <table class="table">
-        <thead>
+    <h1>Employees</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="d-flex justify-content-end">
+    <a class="btn btn-success align-content-xl-end btn-lg" href="{{ path('user_new') }}">New Employe</a>
+    </div>
+    {% endif %}
+    <table class="table table-striped">
+        <thead class="thead-dark">
             <tr>
                 <th></th>
                 <th>Name</th>
@@ -16,32 +20,50 @@
                 <th>Country</th>
                 <th>Marital Status</th>
                 <th>Skill</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for user in users %}
-            <tr>
-                <td><img src="../{{ user.link }}" height="42" width="42"></img></td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.surname }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.birthday ? user.birthday|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user.country }}</td>
-                <td></td>
-                <td></td>
-                <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
+            {% if not users is empty %}
+                {% for user in users %}
+                    <tr>
+                        <td>
+                            <img src={{ relative_path('http://localhost:8000/') }}{{ user.link }} height="42" width="42">
+                        </td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.surname }}</td>
+                        <td>
+                            <span class="badge badge-dark">
+                                {{ user.username }}
+                            </span>
+                        </td>
+                        <td>{{ user.birthday ? user.birthday|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ user.country }}</td>
+                        {% if user.status.name is not defined %}
+                            <td>Unknown</td>
+                        {% else %}
+                            <td>{{ user.status.name }}</td>
+                        {% endif %}
+                        <td>
+                            {% for skill in user.skillIds %}
+                                <button type="button" class="btn btn-warning" disabled>
+                                    {{ skill.name }}
+                                </button>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if is_granted('ROLE_ADMIN') or app.user.id==user.id %}
+                                <a class="btn btn-primary" href="{{ path('user_show', {'id': user.id}) }}">Show</a>
+                                <a class="btn btn-danger" href="{{ path('user_edit', {'id': user.id}) }}">Edit</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+             {% else %}
+                <tr>
+                    <td colspan="9">no records found</td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
-
-    <a href="{{ path('user_new') }}">Create new</a>
 {% endblock %}

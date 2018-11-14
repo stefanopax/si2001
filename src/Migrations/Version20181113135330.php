@@ -8,15 +8,15 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181107132614 extends AbstractMigration
+final class Version20181113135330 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP INDEX UNIQ_8D93D649F85E0677 ON user');
-        $this->addSql('ALTER TABLE user ADD name VARCHAR(255) NOT NULL, ADD surname VARCHAR(255) NOT NULL, ADD birthday DATETIME DEFAULT NULL, ADD country VARCHAR(10) DEFAULT NULL, ADD link VARCHAR(255) DEFAULT NULL, CHANGE username username VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE has DROP FOREIGN KEY FK_C6F39EA5E3DE477');
+        $this->addSql('ALTER TABLE has ADD CONSTRAINT FK_C6F39EA5E3DE477 FOREIGN KEY (skill) REFERENCES skill (id) ON DELETE CASCADE');
     }
 
     public function down(Schema $schema) : void
@@ -24,7 +24,7 @@ final class Version20181107132614 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user DROP name, DROP surname, DROP birthday, DROP country, DROP link, CHANGE username username VARCHAR(180) NOT NULL COLLATE utf8mb4_unicode_ci');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649F85E0677 ON user (username)');
+        $this->addSql('ALTER TABLE has DROP FOREIGN KEY FK_C6F39EA5E3DE477');
+        $this->addSql('ALTER TABLE has ADD CONSTRAINT FK_C6F39EA5E3DE477 FOREIGN KEY (skill) REFERENCES skill (id) ON UPDATE CASCADE ON DELETE CASCADE');
     }
 }

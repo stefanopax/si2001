@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Status{% endblock %}
+
+{% block body %}
+    <h1>Edit Status</h1>
+
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {{ include('status/_form.html.twig', {'button_label': 'Update'}) }}
+    <a href="{{ path('status_index') }}" class="btn btn-info">Back to list</a>
+    {{ include('status/_delete_form.html.twig') }}
+{% endblock %}

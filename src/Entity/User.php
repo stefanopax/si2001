@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -18,7 +20,7 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=190, unique=true)
      */
     private $username;
 
@@ -52,6 +54,36 @@ class User implements UserInterface, \Serializable
      */
     private $link;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Skill", cascade={"persist"})
+     * @ORM\JoinTable(name="has",
+     *      joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="skill", referencedColumnName="id", onDelete="CASCADE")}
+     *      )
+     */
+    private $skill_ids;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", cascade={"persist"})
+     * @ORM\JoinTable(name="owns",
+     *      joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id")}
+     *      )
+     */
+    private $role_ids;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Status", cascade={"persist"})
+     * @ORM\JoinColumn(name="status", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $status;
+
+    public function __construct()
+    {
+        $this->skill_ids = new ArrayCollection();
+        $this->role_ids = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,20 +112,33 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
-    public function getRoles()
+
+    public function getRoles(): array
     {
-        return [
-            'ROLE_USER'
-        ];
+        $roles = [];
+        foreach ($this->role_ids as $r) {
+
+            $roles[] = $r->getName();
+        }
+
+        return $roles;
     }
+
+    public function getRoleIds(): Collection
+    {
+        return $this->role_ids;
+    }
+
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        return null;
     }
+
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+        return null;
     }
+
     public function serialize()
     {
         return serialize([
@@ -102,6 +147,7 @@ class User implements UserInterface, \Serializable
             $this->password
         ]);
     }
+
     public function unserialize($serialized)
     {
         list(
@@ -167,6 +213,62 @@ class User implements UserInterface, \Serializable
     public function setLink(?string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Skill[]
+     */
+    public function getSkillIds(): Collection
+    {
+        return $this->skill_ids;
+    }
+
+    public function addSkillId(Skill $skillId): self
+    {
+        if (!$this->skill_ids->contains($skillId)) {
+            $this->skill_ids->add($skillId);
+        }
+
+        return $this;
+    }
+
+    public function removeSkillId(Skill $skillId): self
+    {
+        if ($this->skill_ids->contains($skillId)) {
+            $this->skill_ids->removeElement($skillId);
+        }
+
+        return $this;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->role_ids->contains($role)) {
+            $this->role_ids->add($role);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        if ($this->role_ids->contains($role)) {
+            $this->role_ids->removeElement($role);
+        }
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

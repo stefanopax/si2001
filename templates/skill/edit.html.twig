@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Skill{% endblock %}
+
+{% block body %}
+    <h1>Edit Skill</h1>
+    {% for flashMessage in app.session.flashbag.get('alert') %}
+
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+
+    {% endfor %}
+    {{ include('skill/_form.html.twig', {'button_label': 'Update'}) }}
+    <a href="{{ path('skill_index') }}" class="btn btn-info">Back to list</a>
+    {{ include('skill/_delete_form.html.twig') }}
+{% endblock %}

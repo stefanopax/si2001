@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Skills | SI2001{% endblock %}
+
+{% block body %}
+    <h1>Skills</h1>
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-success align-content-xl-end btn-lg" href="{{ path('skill_new') }}">New Skill</a>
+    </div>
+    <table class="table table-striped table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for skill in skills %}
+            <tr>
+                <td>{{ skill.name }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('skill_show', {'id': skill.id}) }}">Show</a>
+                    <a class="btn btn-danger" href="{{ path('skill_edit', {'id': skill.id}) }}">Edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<br></br>
+{% endblock %}

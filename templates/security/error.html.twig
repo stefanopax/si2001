@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Status | SI2001{% endblock %}
+
+{% block body %}
+    <div class="alert alert-success">
+        Access denied, you don't have permission to access!
+    </div>
+    <a href="{{ path('user_index') }}" class="btn btn-info">Back to list</a>
+{% endblock %}
