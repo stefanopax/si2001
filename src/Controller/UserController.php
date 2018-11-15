@@ -35,6 +35,7 @@ class UserController extends AbstractController
      */
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, MyService $service): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = new User();
 
         $form = $this->createForm(UserType::class, $user);
@@ -117,5 +118,19 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     * @Route("/search", name="user_search", methods="POST")
+     */
+    public function search(MyService $service): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $request = Request::createFromGlobals();
+        $country=$request->request->get('search');
+
+        $result=$service->searchUsers($em, $country);
+
+        return $this->render('user/search.html.twig', ['result' => $result]);
     }
 }

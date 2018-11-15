@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employees | SI2001{% endblock %}
+
+{% block body %}
+
+{% if not result is empty %}
+    <h1>Users born in {{ app.request.get('search') }}</h1>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Username</th>
+            <th>Birthday</th>
+            <th>Marital Status</th>
+            <th>Skill</th>
+        </tr>
+        </thead>
+        {% for user in result %}
+            <tbody>
+                <tr>
+                    <td>
+                        <img src={{ relative_path('http://localhost:8000/') }}{{ user.link }} height="42" width="42">
+                    </td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.surname }}</td>
+                    <td>
+                            <span class="badge badge-dark">
+                                {{ user.username }}
+                            </span>
+                    </td>
+                    <td>{{ user.birthday ? user.birthday|date('Y-m-d H:i:s') : '' }}</td>
+                    {% if user.status.name is not defined %}
+                        <td>Unknown</td>
+                    {% else %}
+                        <td>{{ user.status.name }}</td>
+                    {% endif %}
+                    <td>
+                        {% for skill in user.skillIds %}
+                            <button type="button" class="btn btn-warning" disabled>
+                                {{ skill.name }}
+                            </button>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+{% else %}
+    <div class="alert alert-info" >
+        <b>There are no users born in {{ app.request.get('search') }}</b>
+    </div>
+{% endif %}
+<a href="{{ path('user_index') }}" class="btn btn-info">Back to list</a>
+
+{% endblock %}

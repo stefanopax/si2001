@@ -38,6 +38,15 @@ class UserRepository extends ServiceEntityRepository
         return $stmt->fetchAll();
      }
 
+    public function findUsersbyCountry()
+        {    return $this->getEntityManager()
+                ->createQuery(
+                    'SELECT * from skill
+                          JOIN has ON skill.id=has.skill
+                          WHERE has.user = :id'
+                )
+                ->setParameter('id', $id);
+        }
 
     /* public function findSkillsById()
     {    return $this->getEntityManager()

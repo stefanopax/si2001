@@ -18,6 +18,10 @@ security:
         main:
             anonymous: ~
             access_denied_handler: App\Security\AccessDeniedHandler
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 3600 # 1 hour in seconds
+                path:     /
 
             form_login:
                 default_target_path: /user

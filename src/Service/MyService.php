@@ -28,4 +28,8 @@ class MyService
         $em->persist($user);
         $em->flush();
     }
+    public function searchUsers(ObjectManager $em, string $country)
+    {
+        return $em->getRepository(User::class)->findBy(array("country"=>$country));
+    }
 }

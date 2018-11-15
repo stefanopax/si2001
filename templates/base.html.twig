@@ -18,18 +18,20 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <div class="container-fluid" id="navbarNavDropdown">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item-active">
-                        <a class="nav-item nav-link active" href={{ relative_path('http://localhost:8000/user/') }}>Employees</a>
-                    </li>
-                    <li class="nav-item-active">
-                        <a class="nav-item nav-link active" href={{ relative_path('http://localhost:8000/skill/') }}>Skills</a>
-                    </li>
-                    <li class="nav-item-active border-right">
-                        <a class="nav-item nav-link active" href={{ relative_path('http://localhost:8000/status/') }}>Marital List</a>
-                    </li>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li class="nav-item-active">
+                            <a class="nav-item nav-link active" href={{ relative_path('http://localhost:8000/user/') }}>Employees</a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item-active">
+                                <a class="nav-item nav-link active" href={{ relative_path('http://localhost:8000/skill/') }}>Skills</a>
+                            </li>
+                            <li class="nav-item-active border-right">
+                                <a class="nav-item nav-link active" href={{ relative_path('http://localhost:8000/status/') }}>Marital List</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ app.user.name }}
@@ -40,16 +42,19 @@
                                 <a class="dropdown-item" href={{ path('logout') }}>Logout</a>
                             </div>
                         </li>
+                </ul>
+                <ul class="navbar-nav navbar-right">
+                        <form class="form-inline" method="POST" action="{{ path('user_search') }}">
+                            <label>Search countries &nbsp</label>
+                            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Country" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
                     {% else %}
                          <li class="nav-item">
                              <a class="nav-link" href={{ relative_path('http://localhost:8000/login') }}>Login</a>
                          </li>
                     {% endif %}
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </nav>
     </body>
