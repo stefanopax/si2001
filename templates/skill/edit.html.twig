@@ -4,13 +4,13 @@
 
 {% block body %}
     <h1>Edit Skill</h1>
-    {% for flashMessage in app.session.flashbag.get('alert') %}
 
-        <div class="alert alert-success">
+    {% for flashMessage in app.session.flashbag.get('alert') %}
+        <div class="alert alert-danger">
             {{ flashMessage }}
         </div>
-
     {% endfor %}
+
     {{ include('skill/_form.html.twig', {'button_label': 'Update'}) }}
     <a href="{{ path('skill_index') }}" class="btn btn-info">Back to list</a>
     {{ include('skill/_delete_form.html.twig') }}

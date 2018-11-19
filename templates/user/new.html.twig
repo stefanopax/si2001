@@ -6,7 +6,7 @@
     <h1>Create new User</h1>
     {% for flashMessage in app.session.flashbag.get('user') %}
 
-        <div class="alert alert-success">
+        <div class="alert alert-danger">
             {{ flashMessage }}
         </div>
 

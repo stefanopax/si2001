@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
-use App\Service\MyService;
+use App\Service\FileUploader;
+use App\Service\UserService;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,11 +20,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class UserController extends AbstractController
 {
-
     /**
      * @Route("/", name="user_index", methods="GET")
      */
-    public function index(UserRepository $userRepository, MyService $service): Response
+    public function index(UserRepository $userRepository, UserService $service): Response
     {
        return $this->render('user/index.html.twig', [
             'users' => $service->getAllUsers($userRepository)
@@ -33,21 +34,26 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="user_new", methods="GET|POST")
      */
-    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, MyService $service): Response
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserService $service): Response
     {
+        // if verified, this control will render the custom error template
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $user = new User();
 
+        $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $em = $this->getDoctrine()->getManager();
+
+            /**
+             * @var UploadedFile $file
+             */
+            $file = $form->get('link')->getData();
 
             try {
                 // insert default values and check if user is in db
-                $service->updateUser($user, $em, $passwordEncoder);
+                $service->updateUser($user, $file, $em, $passwordEncoder);
             }
             catch (UniqueConstraintViolationException $e) {
                 $this->get('session')->getFlashBag()->add(
@@ -77,8 +83,9 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/edit", name="user_edit", methods="GET|POST")
      */
-    public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder, MyService $service): Response
+    public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder, UserService $service): Response
     {
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -86,8 +93,13 @@ class UserController extends AbstractController
             try {
                 $em = $this->getDoctrine()->getManager();
 
+                /**
+                 * @var UploadedFile $file
+                 */
+                $file = $form->get('link')->getData();
+
                 // insert default values and check if user is in db
-                $service->updateUser($user, $em, $passwordEncoder);
+                $service->updateUser($user, $file, $em, $passwordEncoder);
             }
             catch (UniqueConstraintViolationException $e) {
                 $this->get('session')->getFlashBag()->add(
@@ -123,14 +135,19 @@ class UserController extends AbstractController
     /**
      * @Route("/search", name="user_search", methods="POST")
      */
-    public function search(MyService $service): Response
+    public function search(UserService $service): Response
     {
         $em = $this->getDoctrine()->getManager();
         $request = Request::createFromGlobals();
         $country=$request->request->get('search');
 
-        $result=$service->searchUsers($em, $country);
+        $users=$service->searchUsers($em, $country);
 
-        return $this->render('user/search.html.twig', ['result' => $result]);
+        $check=true; // in this way I can discriminate actions in the template without using GET method
+
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
+            'check' => $check,
+        ]);
     }
 }

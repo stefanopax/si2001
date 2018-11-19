@@ -28,7 +28,7 @@
                 {% for user in users %}
                     <tr>
                         <td>
-                            <img src={{ relative_path('http://localhost:8000/') }}{{ user.link }} height="42" width="42">
+                            <img src={{ relative_path('http://localhost:8000/uploads/') }}{{ user.link }} height="42" width="42">
                         </td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.surname }}</td>
@@ -38,7 +38,11 @@
                             </span>
                         </td>
                         <td>{{ user.birthday ? user.birthday|date('Y-m-d H:i:s') : '' }}</td>
-                        <td>{{ user.country }}</td>
+                        {% if user.country == NULL %}
+                            <td>Unknown</td>
+                        {% else %}
+                            <td>{{ user.country }}</td>
+                        {% endif %}
                         {% if user.status.name is not defined %}
                             <td>Unknown</td>
                         {% else %}
@@ -61,7 +65,16 @@
                 {% endfor %}
              {% else %}
                 <tr>
-                    <td colspan="9">no records found</td>
+                    {% if not check %}
+                        <td colspan="9">no records found</td>
+                    {% else %}
+                        <td colspan="9">
+                            <b>There are no users born in this country</b>
+                        </td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td><a href="{{ path('user_index') }}" class="btn btn-info">Back to list</a></td>
                 </tr>
             {% endif %}
         </tbody>

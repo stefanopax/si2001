@@ -117,7 +117,6 @@ class User implements UserInterface, \Serializable
     {
         $roles = [];
         foreach ($this->role_ids as $r) {
-
             $roles[] = $r->getName();
         }
 

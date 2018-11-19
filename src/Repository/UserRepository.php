@@ -19,9 +19,10 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
+    /**
+     * @return User[] Returns an array of User objects
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function findSkillsById($id)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -38,6 +39,7 @@ class UserRepository extends ServiceEntityRepository
         return $stmt->fetchAll();
      }
 
+/*
     public function findUsersbyCountry()
         {    return $this->getEntityManager()
                 ->createQuery(
@@ -47,6 +49,7 @@ class UserRepository extends ServiceEntityRepository
                 )
                 ->setParameter('id', $id);
         }
+*/
 
     /* public function findSkillsById()
     {    return $this->getEntityManager()

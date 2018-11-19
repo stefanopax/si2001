@@ -9,7 +9,6 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 // Used to populate the database at the beginning
 class UserFixture extends Fixture
