@@ -4,69 +4,70 @@
 
 {% block body %}
     <h1>User</h1>
+    <div class="a">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Username</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ user.name }}</td>
+                </tr>
+                <tr>
+                    <th>Surname</th>
+                    <td>{{ user.surname }}</td>
+                </tr>
+                <tr>
+                    <th>Birthday</th>
+                    <td>{{ user.birthday ? user.birthday|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Country</th>
+                    {% if user.country == NULL %}
+                        <td>Unknown</td>
+                    {% else %}
+                        <td>{{ user.country }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th>Link</th>
+                    <td><img src="../uploads/{{ user.link }}" height="42" width="42"></td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    {% if user.status.name is not defined %}
+                        <td>Unknown</td>
+                    {% else %}
+                        <td>{{ user.status.name }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th>Skills</th>
+                    <td>
+                        {% for skill in user.skillIds %}
+                            <button type="button" class="btn btn-warning" disabled>
+                                {{ skill.name }}
+                            </button>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Roles</th>
+                    <td>
+                        {% for role in user.roleIds %}
+                            <button type="button" class="btn btn-outline-info" disabled>
+                                {{ role.name }}
+                            </button>
+                        {% endfor %}
+                    </td>
+                </tr>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Username</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ user.name }}</td>
-            </tr>
-            <tr>
-                <th>Surname</th>
-                <td>{{ user.surname }}</td>
-            </tr>
-            <tr>
-                <th>Birthday</th>
-                <td>{{ user.birthday ? user.birthday|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Country</th>
-                {% if user.country == NULL %}
-                    <td>Unknown</td>
-                {% else %}
-                    <td>{{ user.country }}</td>
-                {% endif %}
-            </tr>
-            <tr>
-                <th>Link</th>
-                <td><img src="../uploads/{{ user.link }}" height="42" width="42"></td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                {% if user.status.name is not defined %}
-                    <td>Unknown</td>
-                {% else %}
-                    <td>{{ user.status.name }}</td>
-                {% endif %}
-            </tr>
-            <tr>
-                <th>Skills</th>
-                <td>
-                    {% for skill in user.skillIds %}
-                        <button type="button" class="btn btn-warning" disabled>
-                            {{ skill.name }}
-                        </button>
-                    {% endfor %}
-                </td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>
-                    {% for role in user.roleIds %}
-                        <button type="button" class="btn btn-outline-info" disabled>
-                            {{ role.name }}
-                        </button>
-                    {% endfor %}
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <a href="{{ path('user_index') }}" class="btn btn-info">Back to list</a>
-    <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-secondary">Edit</a>
-    {{ include('user/_delete_form.html.twig') }}
+            </tbody>
+        </table>
+        <a href="{{ path('user_index') }}" class="btn btn-info">Back to list</a>
+        <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-secondary">Edit</a>
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

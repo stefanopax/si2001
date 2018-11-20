@@ -3,7 +3,9 @@
 {% block title %}New User{% endblock %}
 
 {% block body %}
+
     <h1>Create new User</h1>
+
     {% for flashMessage in app.session.flashbag.get('user') %}
 
         <div class="alert alert-danger">
@@ -11,9 +13,12 @@
         </div>
 
     {% endfor %}
-    {{ include('user/_form.html.twig') }}
 
-    <a href="{{ path('user_index') }}" class="btn btn-info">Back to list</a>
+    <div class="a">
+        {{ include('user/_form.html.twig') }}
+        <a href="{{ path('user_index') }}" class="btn btn-info">Back to list</a>
+    </div>
+
     <br></br>
 
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -34,7 +35,7 @@ class UserService
                 $fileName
             );
         } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+            throw new FileNotFoundException('File ' . $fileName . ' not found.');
         }
 
         $user->setLink($fileName);

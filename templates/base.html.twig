@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+            .a{
+                margin: auto;
+                border: 3px solid green;
+                padding: 10px;
+                width: 50%;
+                height: 90%;
+            }
+        </style>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Home{% endblock %}</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="icon" href={{ relative_path('http://localhost:8000/uploads/logo.jpg') }} />
@@ -31,18 +41,20 @@
                         {% endif %}
                 </ul>
                 <ul class="navbar-nav navbar-right">
-                        <form class="form-inline" method="POST" action="{{ path('user_search') }}">
-                            <label>Search users by country &nbsp</label>
-                            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Country" aria-label="Search" required>
-                            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>&nbsp
-                        </form>
+                    <form class="form-inline" method="POST" action="{{ path('user_search') }}">
+                        <label>Search users by country &nbsp</label>
+                        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Country" aria-label="Search" required>
+                        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>&nbsp
+                    </form>
                     <li class="nav-item dropdown border-left">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ app.user.name }}
                             {{ app.user.surname }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <h6 class="dropdown-header">Actions</h6>
                             <a class="dropdown-item" href="{{ path('user_show', {'id': app.user.id}) }}">My profile</a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href={{ path('logout') }}>Logout</a>
                         </div>
                     </li>

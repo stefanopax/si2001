@@ -4,21 +4,22 @@
 
 {% block body %}
     <h1>Status</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Name</th>
-                <td>{{ status.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-<div class="d-flex justify-content-start">
-    <a href="{{ path('status_index') }}" class="btn btn-info">Back to list</a>
-    &nbsp
-    <a href="{{ path('status_edit', {'id': status.id}) }}" class="btn btn-secondary">Edit</a>
-    &nbsp
-    {{ include('status/_delete_form.html.twig') }}
-    &nbsp
-</div>
+    <div class="a">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ status.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-start">
+            <a href="{{ path('status_index') }}" class="btn btn-info">Back to list</a>
+            &nbsp
+            <a href="{{ path('status_edit', {'id': status.id}) }}" class="btn btn-secondary">Edit</a>
+            &nbsp
+            {{ include('status/_delete_form.html.twig') }}
+            &nbsp
+        </div>
+    </div>
 {% endblock %}

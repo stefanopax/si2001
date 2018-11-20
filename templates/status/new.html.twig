@@ -11,6 +11,8 @@
         </div>
     {% endfor %}
 
-    {{ include('status/_form.html.twig') }}
-    <a href="{{ path('status_index') }}" class="btn btn-info">Back to list</a>
+    <div class="a">
+        {{ include('status/_form.html.twig') }}
+        <a href="{{ path('status_index') }}" class="btn btn-info">Back to list</a>
+    </div>
 {% endblock %}

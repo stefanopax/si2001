@@ -13,8 +13,10 @@
 
     {% endfor %}
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="a">
+        {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+        <a href="{{ path('user_index') }}" class="btn btn-info">Back to list</a>
+    </div>
 
-    <a href="{{ path('user_index') }}" class="btn btn-info">back to list</a>
     <br></br>
 {% endblock %}

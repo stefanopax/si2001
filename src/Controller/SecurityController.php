@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -14,6 +15,12 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request, AuthenticationUtils $utils)
     {
+        // if user logged in, he can't return to login page
+        $securityContext = $this->container->get('security.authorization_checker');
+        if ($securityContext->isGranted('ROLE_USER')) {
+            return $this->redirect($this->generateUrl('user_index'));
+        }
+
         $error = $utils->getLastAuthenticationError();
         $lastUsername=$utils->getLastUsername();
 
