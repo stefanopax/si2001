@@ -4,7 +4,7 @@ security:
         App\Entity\User:
             algorithm: bcrypt
     role_hierarchy:
-        ROLE_USEE:   ROLE_USER
+        ROLE_USER:    ROLE_USER
         ROLE_ADMIN: [ ROLE_USER, ROLE_ADMIN]
     providers:
         my_provider:

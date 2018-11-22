@@ -23,8 +23,8 @@
                     {% if error %}
                         <span class="error">{{ error.messageKey }}</span>
                     {% endif %}
-                    <h5 class="card-title text-center">Sign In</h5>
-                    <form class="form-signin" action="{{  path('login') }}" method="POST">
+                    <h5 class="card-title text-center" style="font-family: Optima">Sign In</h5>
+                    <form class="form-signin" action="{{ path('login') }}" method="POST">
                         <div class="form-label-group">
                             <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="_username" required autofocus value="{{ last_username }}">
                             <label for="inputUsername">Username</label>

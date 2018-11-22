@@ -3,8 +3,10 @@
 {% block title %}Error | SI2001{% endblock %}
 
 {% block body %}
+    <h1 style="font-family: Optima; color: red">Access denied</h1>
     <div class="alert alert-danger" style="color: red">
-        <b>Access denied, you don't have the permission to access!</b>
+        <b>You don't have the permission to access this page!</b>
+        <img src={{ relative_path('http://localhost:8000/uploads/red-error-round-icon-2.png') }} class="rounded-circle" height="42" width="42">
     </div>
     <a href="{{ path('user_index') }}" class="btn btn-info">Back to list</a>
 {% endblock %}
